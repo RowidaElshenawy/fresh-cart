@@ -1,0 +1,10 @@
+@media(min-width:400px){
+    .categoryImage{
+        height:250px;
+        object-fit: cover;
+    }
+}
+.categoryImage{
+    height:450px;
+    width: 100%;
+}

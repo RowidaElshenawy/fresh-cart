@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&family=Signika+Negative:wght@300..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{
+    --main-color:#0aad0a;
+    --rating-color:#ffc908;
+}
+.main-color{
+    color: var(--main-color);
+}
+.rating-color{
+    color: var(--rating-color)
+}
+.active{
+    @apply bg-main p-1 text-white ;
+}
+.product{
+    transition: all 0.5s;
+}
+.product:hover{
+    box-shadow: 1px 1px 10px var(--main-color);
+}
+.product .btn{
+    transition: all 1s;
+    transform: translateY(100%);
+    opacity: 0;
+}
+.product:hover .btn{
+    opacity: 1;
+    transform: translateY(0%);
+}
+.box{
+    transform: scale(0.97);
+    transition: all 0.5s;
+}
+.box:hover{
+    transform: scale(1.0);
+    box-shadow: 1px 1px 10px var(--main-color);
+}
+
