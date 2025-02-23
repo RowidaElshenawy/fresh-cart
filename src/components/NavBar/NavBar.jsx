@@ -3,9 +3,11 @@ import styles from './NavBar.module.css'
 import logo from '../../assets/images/freshcart-logo.svg'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { tokenContext } from '../../context/tokenContext'
+import { cartContext } from '../../context/CartContext'
 export default function NavBar() {
     const[count,setCount]=useState(0)
     let {token,setToken}=useContext(tokenContext)
+    let{numOfCartItems}=useContext(cartContext)
     console.log(token,"navbartoken")
     let navigate =useNavigate()
     function Logout(){
@@ -28,7 +30,7 @@ export default function NavBar() {
             <NavLink to={''} className="block py-2 px-3  rounded-sm   dark:text-white md:dark:text-blue-500" aria-current="page">Home</NavLink>
           </li>
           <li>
-            <NavLink to={'cart'} className="block py-2 px-3 text-gray-900 rounded-sm   md:border-0   dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cart</NavLink>
+            <NavLink to={'cart'} className="block py-2 px-3 text-gray-900 rounded-sm   md:border-0   dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cart {numOfCartItems}</NavLink>
           </li>
           <li>
             <NavLink to={'products'}  className="block py-2 px-3 text-gray-900 rounded-sm   md:border-0   dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Products</NavLink>

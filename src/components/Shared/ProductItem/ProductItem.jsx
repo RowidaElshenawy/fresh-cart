@@ -20,7 +20,7 @@ export default function ProductItem(props) {
             </div>
           </Link>
           <div className='px-3 flex items-center'>
-            <button className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
+            <button onClick={()=> props.AddProductToCart(id)} className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
             <i className="fa-solid fa-heart ms-3 text-2xl"></i>
           </div>
         </div>

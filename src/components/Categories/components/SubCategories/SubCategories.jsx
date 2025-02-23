@@ -23,7 +23,7 @@ export default function SubCategories(props) {
     },[_id])
   return (
     <>
-    {_id && SubCategory.length!==0 &&<div>
+    {_id && <div>
       <h3 className='text-center text-main text-3xl font-semibold'>{`${name} subcategories`}</h3>
       <div className='flex flex-wrap py-10'>
         {SubCategory.map(sub=><div className='box w-[100%] sm:w-1/2 md:w-1/3  border-2 py-3 px-5 mb-2 mx-3 sm:mx-0'>
@@ -31,6 +31,7 @@ export default function SubCategories(props) {
         </div>)}
       </div>
     </div>}
+    
     </>
     
   )

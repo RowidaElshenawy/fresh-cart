@@ -16,6 +16,9 @@ import AuthView from './components/AuthView/AuthView'
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Cart from './components/Cart/Cart'
+import { ToastContainer } from 'react-toastify'
+import Checkout from './components/Checkout/Checkout';
+import AllOrders from './components/AllOrders/AllOrders';
 function App() {
   const [count, setCount] = useState(0)
   let{setToken}=useContext(tokenContext)
@@ -34,6 +37,10 @@ function App() {
     {path:"register",element :<AuthView><Register/></AuthView>},
     {path:"cart",element :<ProtectedRoutes><Cart/></ProtectedRoutes>},
     {path:"productDetails/:id/:categoryId",element :<ProtectedRoutes><ProductDetails/></ProtectedRoutes>},
+    {path:"checkout",element :<ProtectedRoutes><Checkout/></ProtectedRoutes>},
+    {path:"allorders",element :<ProtectedRoutes><AllOrders/></ProtectedRoutes>},
+
+
 
 
 
@@ -47,6 +54,7 @@ function App() {
       <RouterProvider router={routes}>
 
       </RouterProvider>
+      <ToastContainer />
     </>
   )
 }

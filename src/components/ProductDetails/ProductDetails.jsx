@@ -5,10 +5,14 @@ import axios from 'axios'
 import RealatedProduct from './components/RealatedProduct/RealatedProduct'
 import Slider from 'react-slick'
 import Loader from '../Shared/Loader/Loader'
+import { useContext } from 'react'
+import { cartContext } from './../../context/CartContext';
+import { toast } from 'react-toastify'
 export default function ProductDetails() {
     const[count,setCount]=useState(0)
     let[details,setDetails]=useState(null)
     const {id,categoryId}=useParams()
+    let{AddToCart}=useContext(cartContext)
     function getProductDetails(){
       axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({data})=>{
@@ -29,6 +33,12 @@ export default function ProductDetails() {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
+    async function AddProductToCart(id){
+      let data = await AddToCart(id)
+      if(data.status == "success"){
+        toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+      }
+    }
   return (
     <>
       {details&& <div className='flex flex-wrap items-center py-16 px-5'>
@@ -48,7 +58,7 @@ export default function ProductDetails() {
               {details?.ratingsAverage}</p>
           </div>
           <div className='px-16 flex items-center'>
-            <button className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
+            <button onClick={()=>{AddProductToCart(details.id)}} className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
             <i className="fa-solid fa-heart ms-3 text-2xl"></i>
           </div>
         </div>
