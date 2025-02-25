@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './Login.module.css'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -45,6 +45,9 @@ export default function Login() {
         setCallingAPI(false)
       }
      }
+     useEffect(()=>{
+      document.title = "Login";
+     },[])
   return (
  <form onSubmit={loginForm.handleSubmit} className="w-[80%] my-7 mx-auto h-[350px]">
   <h1 className='mb-5 text-gray-800 font-semibold text-3xl'>Login Now:</h1>
@@ -63,6 +66,7 @@ export default function Login() {
     <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password:</label>
     {loginForm.errors.password && loginForm.touched.password ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">{loginForm.errors.password}</div> :''}
   </div>
+  <Link to={'/forgetpassword'} className='text-2xl font-medium'>Forget Password?</Link>
   {isCallingAPI?<div className='bg-main  size-8 ml-auto rounded flex justify-center items-center '>
     <ClipLoader color='text-main' size={20}/>
   </div>: <button type="submit" className="bg-opacity-70 block ml-auto text-white bg-main  focus:ring-4 focus:outline-none focus:ring-green-400 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-main  dark:focus:ring-green-400">Login</button>}
@@ -70,6 +74,6 @@ export default function Login() {
   )
 }
 
-
+// rowidaalielshenawy@gmail.com
 // rowida11@yahoo.com 
 // T12345678

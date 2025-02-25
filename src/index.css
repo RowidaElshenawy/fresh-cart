@@ -13,7 +13,7 @@
     color: var(--rating-color)
 }
 .active{
-    @apply bg-main p-1 text-white ;
+    @apply bg-main p-2 text-white rounded-md;
 }
 .product{
     transition: all 0.5s;

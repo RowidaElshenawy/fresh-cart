@@ -51,15 +51,16 @@ export default function AllOrders() {
     }
     useEffect(()=>{
       token && getId();
-      console.log("rrrrr")
       console.log($targetEl);
+      document.title="All Orders"
+
       
     },[token])
   return (
    <>
-  <div className="relative overflow-x-auto my-12">
+  <div className="relative overflow-x-auto my-10 ">
   <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <thead className="text-xs hidden md:contents text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" className="px-6 py-3">
           Order ID
@@ -78,12 +79,12 @@ export default function AllOrders() {
         </th>
       </tr>
     </thead>
-    <tbody>
-      {orders.map(order=><tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <tbody className=''>
+      {orders.map(order=><tr className="  flex flex-col items-center md:table-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+        <th scope="row" className="  px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
           {order.id}
         </th>
-        <td className="px-6 py-4">
+        <td className="   px-6 py-4">
           {order.isPaid? 'Paid' : 'Not Paid'}
         </td>
         <td className="px-6 py-4">
@@ -103,7 +104,7 @@ export default function AllOrders() {
 </div>
 
 
-<div id="modalEl" tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="modalEl" tabIndex={-1} aria-hidden="true" className="hidden my-12  overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full pt-10">
   <div className="relative p-4 w-full max-w-2xl max-h-full">
     {/* Modal content */}
     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -120,7 +121,7 @@ export default function AllOrders() {
       <div className="p-4 md:p-5 space-y-4">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="hidden md:contents text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr className=''>
               <th scope="col" className="px-16 py-3">
                 <span>Image</span>
@@ -137,21 +138,21 @@ export default function AllOrders() {
             </tr>
           </thead>
           <tbody >
-            {selectedItems.map(product =>  <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+            {selectedItems.map(product =>  <tr className="flex flex-col md:table-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td className="p-4">
-                <img src={product.product.imageCover} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch" />
+                <img src={product.product.imageCover} className=" md:w-32 max-w-full max-h-full" alt="Apple Watch" />
               </td>
-              <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td className="text-center md:text-left px-6 py-4 font-semibold text-gray-900 dark:text-white">
                 {product.product.title}
               </td>
               <td className="px-6 py-4">
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <div>
                     {product.count}
                   </div>
                 </div>
               </td>
-              <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td className="text-center md:text-left px-6 py-4 font-semibold text-gray-900 dark:text-white">
                 ${product.price}
               </td>
             </tr>)}

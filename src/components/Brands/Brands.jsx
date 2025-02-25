@@ -19,6 +19,7 @@ export default function Brands() {
     }
     useEffect(()=>{
       getBrands()
+      document.title="Brands"
     },[])
   return (
     <>

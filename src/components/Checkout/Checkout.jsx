@@ -51,6 +51,9 @@ export default function Checkout() {
       
     }
    }
+   useEffect(()=>{
+         document.title = "CheckOut";
+  },[])
 return (
 <form onSubmit={shippingForm.handleSubmit} className="w-[80%] my-32 mx-auto h-[350px]">
 <h1 className='mb-5 text-gray-800 font-semibold text-3xl'>Shipping Info:</h1>

@@ -19,6 +19,8 @@ import Cart from './components/Cart/Cart'
 import { ToastContainer } from 'react-toastify'
 import Checkout from './components/Checkout/Checkout';
 import AllOrders from './components/AllOrders/AllOrders';
+import WishList from './components/WishList/WishList'
+import ForgetPassword from './components/ForgetPassword/ForgetPassword';
 function App() {
   const [count, setCount] = useState(0)
   let{setToken}=useContext(tokenContext)
@@ -27,6 +29,7 @@ function App() {
       setToken(localStorage.getItem("userToken"))
     }
   },[])
+ 
   const routes = createBrowserRouter([
     {path:"" , element: <Layout/> , children:[
     {index:true, element:<ProtectedRoutes><Home/></ProtectedRoutes> },
@@ -39,6 +42,10 @@ function App() {
     {path:"productDetails/:id/:categoryId",element :<ProtectedRoutes><ProductDetails/></ProtectedRoutes>},
     {path:"checkout",element :<ProtectedRoutes><Checkout/></ProtectedRoutes>},
     {path:"allorders",element :<ProtectedRoutes><AllOrders/></ProtectedRoutes>},
+    {path:"wishlist",element :<ProtectedRoutes><WishList/></ProtectedRoutes>},
+    {path:"forgetpassword",element :<AuthView><ForgetPassword/></AuthView>},
+
+
 
 
 

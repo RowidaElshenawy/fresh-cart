@@ -5,6 +5,9 @@ import PopularCategories from './component/PopularCategories/PopularCategories'
 import StaticSlider from './component/StaticSlider/StaticSlider'
 export default function Home() {
     const[count,setCount]=useState(0)
+    useEffect(()=>{
+      document.title = "Home";
+     },[])
   return (
     <div>
       <StaticSlider/>

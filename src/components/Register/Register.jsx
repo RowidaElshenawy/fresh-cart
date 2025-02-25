@@ -48,6 +48,9 @@ export default function Register() {
         setCallingAPI(false)
       }
      }
+     useEffect(()=>{
+      document.title = "Register";
+     },[])
   return (
  <form onSubmit={formik.handleSubmit} className="w-[80%] my-7 mx-auto">
   <h1 className='mb-5 text-gray-800 font-semibold text-3xl'>Register Now:</h1>

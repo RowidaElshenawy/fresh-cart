@@ -7,6 +7,8 @@ export default function CartContextProvider(props){
     const[ numOfCartItems,setNumOfCartItems]=useState(0)
     const{token}=useContext(tokenContext)
     const[cartId,setCartId]=useState('')
+    const[active,setActive]=useState(null)
+    const[callingCartAPI,setcallingCartAPI]=useState(false)
     const API_URL ='https://ecommerce.routemisr.com/api/v1/cart'
     const Order_API_URL='https://ecommerce.routemisr.com/api/v1/orders'
     const headers={
@@ -15,11 +17,14 @@ export default function CartContextProvider(props){
     const[cartDetails,setCartDetails]=useState(null)
     console.log(headers)
     async function AddToCart(productId){
+        setcallingCartAPI(true)
         const {data}=await axios.post(API_URL,{productId},{headers});
         console.log(data)
         if(data.status == "success"){
             setNumOfCartItems(data.numOfCartItems)
             setCartDetails(data)
+            setcallingCartAPI(false)
+            setActive(null)
         }
         return data
     }
@@ -69,11 +74,11 @@ export default function CartContextProvider(props){
     }
     useEffect(()=>{
         token && getCart();
-        console.log(cartId);
+        console.log(cartId,token);
         
      },[token])
    return(
-   <cartContext.Provider value={{numOfCartItems,setNumOfCartItems,AddToCart,getCart,cartDetails,removeProduct,updateCount,cashOnDelivary,onlinePayment,getUserOrders}}>
+   <cartContext.Provider value={{numOfCartItems,setNumOfCartItems,AddToCart,getCart,cartDetails,removeProduct,updateCount,cashOnDelivary,onlinePayment,getUserOrders,headers,setcallingCartAPI,callingCartAPI,setActive,active}}>
         {props.children}
     </cartContext.Provider>
    )

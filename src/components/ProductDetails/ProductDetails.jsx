@@ -8,11 +8,13 @@ import Loader from '../Shared/Loader/Loader'
 import { useContext } from 'react'
 import { cartContext } from './../../context/CartContext';
 import { toast } from 'react-toastify'
+import { WishContext } from '../../context/WishListContext'
 export default function ProductDetails() {
     const[count,setCount]=useState(0)
     let[details,setDetails]=useState(null)
     const {id,categoryId}=useParams()
     let{AddToCart}=useContext(cartContext)
+    const{AddToWishList , getWishList}=useContext(WishContext)
     function getProductDetails(){
       axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({data})=>{
@@ -24,6 +26,7 @@ export default function ProductDetails() {
     }
     useEffect(()=>{
       getProductDetails()
+      document.title="Product Details"
     },[id])
     const settings = {
       dots: true,
@@ -39,6 +42,14 @@ export default function ProductDetails() {
         toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
       }
     }
+     async function AddProductToWishList(id){
+          let data =await  AddToWishList(id)
+          console.log(data);
+          if(data.status == "success"){
+            toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+            getWishList()
+           }
+      }
   return (
     <>
       {details&& <div className='flex flex-wrap items-center py-16 px-5'>
@@ -59,7 +70,7 @@ export default function ProductDetails() {
           </div>
           <div className='px-16 flex items-center'>
             <button onClick={()=>{AddProductToCart(details.id)}} className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
-            <i className="fa-solid fa-heart ms-3 text-2xl"></i>
+            <i onClick={()=> AddProductToWishList(details.id)} className="cursor-pointer fa-solid fa-heart ms-3 text-2xl"></i>
           </div>
         </div>
       </div>}
