@@ -37,26 +37,6 @@ export default function RecentProducts() {
       toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
      }
     }
-    async function AddProductToWishList(id){
-        let data =await  AddToWishList(id)
-        console.log(data);
-        if(data.status == "success"){
-          toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-          setActivecolor('text-red-600')
-          getWishList()
-      }
-      
-    }
-    async function deleteProduct(id){
-      let data= await removeProduct(id)
-      console.log(data);
-      if(data.status == "success"){
-        toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
-        setActivecolor('')
-        getWishList()
-
-      }
-    }
     // heart
     const[wishListClicked,setWishListClicked]=useState([])
     async function getWishListProducts(){
@@ -72,11 +52,22 @@ export default function RecentProducts() {
           let data = await removeProduct(id);
           console.log(data);
           setWishListClicked(data.data)
+          if(data.status == "success"){
+            toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
+            setActivecolor('')
+            getWishList()
+    
+          }
           
       }else{
         let data = await AddToWishList(id);
         console.log(data);
         setWishListClicked(data.data)
+        if(data.status == "success"){
+          toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+          setActivecolor('text-red-600')
+          getWishList()
+      }
       }
     }
 
@@ -87,7 +78,7 @@ export default function RecentProducts() {
     <>
     {products.length ==0 && <Loader/>}
     {products.length !=0 && <div className='flex flex-wrap g-y-3 mb-16'>
-        {products.map(product=> <ProductItem  key={product.id} calling={calling} AddProductToCart={AddProductToCart} AddProductToWishList={AddProductToWishList} product={product} wishId={wishId} Activecolor={Activecolor} deleteProduct={deleteProduct} wishListClicked={wishListClicked} toggleWishList={toggleWishList} />)}
+        {products.map(product=> <ProductItem  key={product.id} calling={calling} AddProductToCart={AddProductToCart}  product={product} wishId={wishId} Activecolor={Activecolor}  wishListClicked={wishListClicked} toggleWishList={toggleWishList} />)}
       </div>}
     </>
   )

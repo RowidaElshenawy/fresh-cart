@@ -6,14 +6,14 @@ import axios from "axios";
 export let WishContext = createContext()
 export function WishContextProvider(props){
     const WishList_API_URL ='https://ecommerce.routemisr.com/api/v1/wishlist'
-    const{token}=useContext(tokenContext)
+    const {token} =useContext(tokenContext)
+    console.log(token);
+    
     const[count,setCount]=useState(0)
     const[wishDetails,setWishDetails]=useState(null)
     const[wishId,setWishtId]=useState('')
-    // ay
     const[Activecolor,setActivecolor]=useState(null)
     const[colored,setColored]=useState('')
-    // ss
     const headers ={
         token
     };
@@ -21,7 +21,6 @@ export function WishContextProvider(props){
         let {data}=await axios.post(WishList_API_URL,{productId},{headers})
         console.log(data);
         if(data.status == "success"){
-            // getWishList()
             setWishtId(data.data)
               return data
         }
@@ -41,9 +40,6 @@ export function WishContextProvider(props){
         console.log(id)
         const {data}=await axios.delete(`${WishList_API_URL}/${id}`,{headers});
         console.log(data) 
-        // if(data.status == "success"){
-        //     // getWishList()
-        // }
         return data
     }
    
