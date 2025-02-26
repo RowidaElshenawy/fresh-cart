@@ -30,12 +30,13 @@ export default function CartContextProvider(props){
     }
     async function getCart(){
         const {data}=await axios.get(API_URL,{headers});
-        console.log(data) 
+        console.log(data,"hhhhhhhhhhhkkkkk") 
         if(data.status == "success"){
             setNumOfCartItems(data.numOfCartItems)
         }
         setCartId(data.cartId)
         setCartDetails(data)
+        return data
     }
     async function removeProduct(id){
         console.log(id)
@@ -76,7 +77,7 @@ export default function CartContextProvider(props){
         token && getCart();
         console.log(cartId,token);
         
-     },[token])
+    },[token])
    return(
    <cartContext.Provider value={{numOfCartItems,setNumOfCartItems,AddToCart,getCart,cartDetails,removeProduct,updateCount,cashOnDelivary,onlinePayment,getUserOrders,headers,setcallingCartAPI,callingCartAPI,setActive,active}}>
         {props.children}

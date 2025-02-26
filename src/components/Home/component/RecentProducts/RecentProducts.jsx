@@ -11,7 +11,7 @@ import { tokenContext } from '../../../../context/tokenContext'
 export default function RecentProducts() {
     const[count,setCount]=useState(0)
     let[products,setProducts]=useState([])
-    let{AddToCart}=useContext(cartContext)
+    let{AddToCart ,getCart}=useContext(cartContext)
     let[calling,setCalling]=useState("")
     let{token}=useContext(tokenContext)
     let{ AddToWishList,wishId, removeProduct,getWishList,setActivecolor,Activecolor,wishDetails}=useContext(WishContext)
@@ -23,20 +23,35 @@ export default function RecentProducts() {
         console.log(error)
       })
     }
-    useEffect(()=>{
-      getProducts()
-      console.log(token);
-      
-    },[token])
-    async function AddProductToCart(id){
-     let data =await AddToCart(id)
-     console.log(data)
-     setCalling(data.status)
-     console.log(data.status)
-     if(data.status == "success"){
-      toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-     }
+    // 
+    const[productsInCart,SetProductsInCart]=useState([])
+    async function productInCart(){
+      let data = await getCart()
+      console.log(data.data.products,"weeeeeeeeeeee")
+      const cartProduct = data.data.products.map(product=>product.product.id)
+      SetProductsInCart(cartProduct)
+      console.log(cartProduct);
     }
+    async function AddProductToCart(id){
+      console.log(id,productsInCart,"weeeeeeeeeeeeeeeeeeeeeeee");
+      
+      if(productsInCart.includes(id)){
+        toast("already added",{position:"bottom-right" ,theme:"dark" , type:"success"})
+      }else{
+        let data =await AddToCart(id)
+        console.log(data)
+        setCalling(data.status)
+        console.log(data.status)
+        if(data.status == "success"){
+        toast("Product added to cart successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+        }
+        SetProductsInCart([...productsInCart, id])
+        console.log(productsInCart);
+        
+      }
+     
+    }
+
     // heart
     const[wishListClicked,setWishListClicked]=useState([])
     async function getWishListProducts(){
@@ -54,9 +69,9 @@ export default function RecentProducts() {
           setWishListClicked(data.data)
           if(data.status == "success"){
             toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
-            setActivecolor('')
             getWishList()
-    
+            console.log(data.data);
+            
           }
           
       }else{
@@ -65,15 +80,18 @@ export default function RecentProducts() {
         setWishListClicked(data.data)
         if(data.status == "success"){
           toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-          setActivecolor('text-red-600')
           getWishList()
       }
       }
     }
-
     useEffect(()=>{
+      getProducts()
       getWishListProducts()
-    },[])
+      console.log(token);
+      productInCart()
+      
+    },[token])
+    
   return (
     <>
     {products.length ==0 && <Loader/>}
