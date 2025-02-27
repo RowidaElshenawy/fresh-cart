@@ -2,12 +2,14 @@ import { useContext, useEffect } from "react";
 import { createContext, useState } from "react";
 import { tokenContext } from './tokenContext';
 import axios from "axios";
+import { toast } from "react-toastify";
 export const cartContext = createContext();
 export default function CartContextProvider(props){
     const[ numOfCartItems,setNumOfCartItems]=useState(0)
     const{token}=useContext(tokenContext)
     const[cartId,setCartId]=useState('')
     const[active,setActive]=useState(null)
+    let[calling,setCalling]=useState("")
     const[callingCartAPI,setcallingCartAPI]=useState(false)
     const API_URL ='https://ecommerce.routemisr.com/api/v1/cart'
     const Order_API_URL='https://ecommerce.routemisr.com/api/v1/orders'
@@ -73,13 +75,40 @@ export default function CartContextProvider(props){
         let {data} = await axios.get(`${Order_API_URL}/user/${userId}`)
         return data
     }
+    // check cart
+    const[productsInCart,SetProductsInCart]=useState([])
+    async function productInCart(){
+      let data = await getCart()
+      console.log(data.data.products,"weeeeeeeeeeee")
+      const cartProduct = data.data.products.map(product=>product.product.id)
+      SetProductsInCart(cartProduct)
+      console.log(cartProduct);
+    }
+    async function AddProductToCart(id){
+      console.log(id,productsInCart,"weeeeeeeeeeeeeeeeeeeeeeee");
+      
+      if(productsInCart.includes(id)){
+        toast("already added",{position:"bottom-right" ,theme:"dark" , type:"success"})
+      }else{
+        let data =await AddToCart(id)
+        console.log(data)
+        setCalling(data.status)
+        console.log(data.status)
+        if(data.status == "success"){
+        toast("Product added to cart successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+        }
+        SetProductsInCart([...productsInCart, id])
+        console.log(productsInCart);
+        
+      }
+    }
     useEffect(()=>{
         token && getCart();
         console.log(cartId,token);
         
     },[token])
    return(
-   <cartContext.Provider value={{numOfCartItems,setNumOfCartItems,AddToCart,getCart,cartDetails,removeProduct,updateCount,cashOnDelivary,onlinePayment,getUserOrders,headers,setcallingCartAPI,callingCartAPI,setActive,active}}>
+   <cartContext.Provider value={{numOfCartItems,setNumOfCartItems,AddToCart,getCart,cartDetails,removeProduct,updateCount,cashOnDelivary,onlinePayment,getUserOrders,headers,setcallingCartAPI,callingCartAPI,setActive,active,productsInCart,AddProductToCart,productInCart}}>
         {props.children}
     </cartContext.Provider>
    )

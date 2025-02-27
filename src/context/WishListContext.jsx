@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { cartContext } from "./CartContext";
 import { tokenContext } from "./tokenContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export let WishContext = createContext()
 export function WishContextProvider(props){
@@ -42,14 +43,47 @@ export function WishContextProvider(props){
         console.log(data) 
         return data
     }
-   
+
+
+    // heart call in recent
+    const[wishListClicked,setWishListClicked]=useState([])
+    async function getWishListProducts(){
+      const data = await getWishList()
+      console.log(data );
+      const wishProducts= data?.data.map(product=>product._id)
+      console.log(wishProducts);
+      setWishListClicked(wishProducts)
+      
+    }
+    async function toggleWishList(id){
+      if(wishListClicked.includes(id)){
+          let data = await removeProduct(id);
+          console.log(data);
+          setWishListClicked(data.data)
+          if(data.status == "success"){
+            toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
+            getWishList()
+            console.log(data.data);
+            
+          }
+          
+      }else{
+        let data = await AddToWishList(id);
+        console.log(data);
+        setWishListClicked(data.data)
+        if(data.status == "success"){
+          toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+          getWishList()
+      }
+      }
+    }
     useEffect(()=>{
       token && getWishList();
       console.log(token);
       
     },[token])
     return(
-        <WishContext.Provider value={{AddToWishList,wishDetails,count,removeProduct,getWishList,wishId,setActivecolor,Activecolor,colored,setColored}}>
+        <WishContext.Provider value={{AddToWishList,wishDetails,count,removeProduct,getWishList,wishId,setActivecolor,Activecolor,colored,setColored,getWishListProducts,toggleWishList,wishListClicked,setWishListClicked}}>
             {props.children}
         </WishContext.Provider>
     )

@@ -9,12 +9,17 @@ import { useContext } from 'react'
 import { cartContext } from './../../context/CartContext';
 import { toast } from 'react-toastify'
 import { WishContext } from '../../context/WishListContext'
+import { tokenContext } from '../../context/tokenContext'
+import { ClipLoader } from 'react-spinners'
 export default function ProductDetails() {
     const[count,setCount]=useState(0)
     let[details,setDetails]=useState(null)
     const {id,categoryId}=useParams()
-    let{AddToCart}=useContext(cartContext)
-    const{AddToWishList , getWishList}=useContext(WishContext)
+    // let{AddToCart}=useContext(cartContext)
+    // const{AddToWishList , getWishList}=useContext(WishContext)
+    const{productInCart,AddProductToCart,productsInCart,setActive,active,callingCartAPI}=useContext(cartContext)
+    const{getWishListProducts,toggleWishList,wishListClicked}=useContext(WishContext)
+    const{token}=useContext(tokenContext)
     function getProductDetails(){
       axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({data})=>{
@@ -24,10 +29,7 @@ export default function ProductDetails() {
         console.log(err)
       })
     }
-    useEffect(()=>{
-      getProductDetails()
-      document.title="Product Details"
-    },[id])
+    
     const settings = {
       dots: true,
       infinite: true,
@@ -36,20 +38,27 @@ export default function ProductDetails() {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
-    async function AddProductToCart(id){
-      let data = await AddToCart(id)
-      if(data.status == "success"){
-        toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-      }
-    }
-     async function AddProductToWishList(id){
-          let data =await  AddToWishList(id)
-          console.log(data);
-          if(data.status == "success"){
-            toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-            getWishList()
-           }
-      }
+    // async function AddProductToCart(id){
+    //   let data = await AddToCart(id)
+    //   if(data.status == "success"){
+    //     toast("Product added successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //   }
+    // }
+    //  async function AddProductToWishList(id){
+    //       let data =await  AddToWishList(id)
+    //       console.log(data);
+    //       if(data.status == "success"){
+    //         toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //         getWishList()
+    //        }
+    //   }
+    useEffect(()=>{
+      getProductDetails()
+      document.title="Product Details"
+      getWishListProducts()
+      console.log(token);
+      productInCart()
+    },[id])
   return (
     <>
       {details&& <div className='flex flex-wrap items-center py-16 px-5'>
@@ -69,8 +78,10 @@ export default function ProductDetails() {
               {details?.ratingsAverage}</p>
           </div>
           <div className='px-16 flex items-center'>
-            <button onClick={()=>{AddProductToCart(details.id)}} className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>
-            <i onClick={()=> AddProductToWishList(details.id)} className="cursor-pointer fa-solid fa-heart ms-3 text-2xl"></i>
+            {active == id & callingCartAPI ? <div className='bg-main  size-8 w-full rounded flex justify-center items-center '>
+               <ClipLoader color='text-main' size={20}/>
+              </div> : <button onClick={()=> {AddProductToCart(details.id) , setActive(details.id)}} className='btn text-white bg-main w-full my-4 rounded p-2 '>Add to Cart</button>}
+            <i onClick={()=> toggleWishList(id)}   className={`${wishListClicked?.includes(id)? 'text-red-600' : ''} cursor-pointer fa-solid fa-heart ms-3 text-2xl`}></i>
           </div>
         </div>
       </div>}

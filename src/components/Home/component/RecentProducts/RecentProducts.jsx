@@ -11,10 +11,10 @@ import { tokenContext } from '../../../../context/tokenContext'
 export default function RecentProducts() {
     const[count,setCount]=useState(0)
     let[products,setProducts]=useState([])
-    let{AddToCart ,getCart}=useContext(cartContext)
+    let{AddToCart ,getCart,productsInCart,SetProductsInCart,productInCart,AddProductToCart}=useContext(cartContext)
     let[calling,setCalling]=useState("")
     let{token}=useContext(tokenContext)
-    let{ AddToWishList,wishId, removeProduct,getWishList,setActivecolor,Activecolor,wishDetails}=useContext(WishContext)
+    let{ AddToWishList,wishId, removeProduct,getWishList,setActivecolor,Activecolor,wishDetails,getWishListProducts,toggleWishList,wishListClicked,setWishListClicked}=useContext(WishContext)
 
     function getProducts(){
       axios.get(`https://ecommerce.routemisr.com/api/v1/products`).then(({data})=>{
@@ -24,66 +24,66 @@ export default function RecentProducts() {
       })
     }
     // 
-    const[productsInCart,SetProductsInCart]=useState([])
-    async function productInCart(){
-      let data = await getCart()
-      console.log(data.data.products,"weeeeeeeeeeee")
-      const cartProduct = data.data.products.map(product=>product.product.id)
-      SetProductsInCart(cartProduct)
-      console.log(cartProduct);
-    }
-    async function AddProductToCart(id){
-      console.log(id,productsInCart,"weeeeeeeeeeeeeeeeeeeeeeee");
+    // const[productsInCart,SetProductsInCart]=useState([])
+    // async function productInCart(){
+    //   let data = await getCart()
+    //   console.log(data.data.products,"weeeeeeeeeeee")
+    //   const cartProduct = data.data.products.map(product=>product.product.id)
+    //   SetProductsInCart(cartProduct)
+    //   console.log(cartProduct);
+    // }
+    // async function AddProductToCart(id){
+    //   console.log(id,productsInCart,"weeeeeeeeeeeeeeeeeeeeeeee");
       
-      if(productsInCart.includes(id)){
-        toast("already added",{position:"bottom-right" ,theme:"dark" , type:"success"})
-      }else{
-        let data =await AddToCart(id)
-        console.log(data)
-        setCalling(data.status)
-        console.log(data.status)
-        if(data.status == "success"){
-        toast("Product added to cart successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-        }
-        SetProductsInCart([...productsInCart, id])
-        console.log(productsInCart);
+    //   if(productsInCart.includes(id)){
+    //     toast("already added",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //   }else{
+    //     let data =await AddToCart(id)
+    //     console.log(data)
+    //     setCalling(data.status)
+    //     console.log(data.status)
+    //     if(data.status == "success"){
+    //     toast("Product added to cart successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //     }
+    //     SetProductsInCart([...productsInCart, id])
+    //     console.log(productsInCart);
         
-      }
+    //   }
      
-    }
+    // }
 
-    // heart
-    const[wishListClicked,setWishListClicked]=useState([])
-    async function getWishListProducts(){
-      const data = await getWishList()
-      console.log(data );
-      const wishProducts= data?.data.map(product=>product._id)
-      console.log(wishProducts);
-      setWishListClicked(wishProducts)
+    // // heart
+    // const[wishListClicked,setWishListClicked]=useState([])
+    // async function getWishListProducts(){
+    //   const data = await getWishList()
+    //   console.log(data );
+    //   const wishProducts= data?.data.map(product=>product._id)
+    //   console.log(wishProducts);
+    //   setWishListClicked(wishProducts)
       
-    }
-    async function toggleWishList(id){
-      if(wishListClicked.includes(id)){
-          let data = await removeProduct(id);
-          console.log(data);
-          setWishListClicked(data.data)
-          if(data.status == "success"){
-            toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
-            getWishList()
-            console.log(data.data);
+    // }
+    // async function toggleWishList(id){
+    //   if(wishListClicked.includes(id)){
+    //       let data = await removeProduct(id);
+    //       console.log(data);
+    //       setWishListClicked(data.data)
+    //       if(data.status == "success"){
+    //         toast("Removed from your wish list",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //         getWishList()
+    //         console.log(data.data);
             
-          }
+    //       }
           
-      }else{
-        let data = await AddToWishList(id);
-        console.log(data);
-        setWishListClicked(data.data)
-        if(data.status == "success"){
-          toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
-          getWishList()
-      }
-      }
-    }
+    //   }else{
+    //     let data = await AddToWishList(id);
+    //     console.log(data);
+    //     setWishListClicked(data.data)
+    //     if(data.status == "success"){
+    //       toast("Product added to wish list successfully",{position:"bottom-right" ,theme:"dark" , type:"success"})
+    //       getWishList()
+    //   }
+    //   }
+    // }
     useEffect(()=>{
       getProducts()
       getWishListProducts()
@@ -96,7 +96,7 @@ export default function RecentProducts() {
     <>
     {products.length ==0 && <Loader/>}
     {products.length !=0 && <div className='flex flex-wrap g-y-3 mb-16'>
-        {products.map(product=> <ProductItem  key={product.id} calling={calling} AddProductToCart={AddProductToCart}  product={product} wishId={wishId} Activecolor={Activecolor}  wishListClicked={wishListClicked} toggleWishList={toggleWishList} />)}
+        {products.map(product=> <ProductItem  key={product.id} calling={calling}   product={product} wishId={wishId} Activecolor={Activecolor}  wishListClicked={wishListClicked} toggleWishList={toggleWishList} productsInCart={productsInCart}   AddProductToCart={AddProductToCart} />)}
       </div>}
     </>
   )
