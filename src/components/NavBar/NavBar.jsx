@@ -25,7 +25,7 @@ export default function NavBar() {
       <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
         <img src={logo} width={'200px'} alt="" />
       </a>
-      <div className="hidden w-full md:block md:w-auto absolute top-[40px] left-0 md:relative md:top-0" id="navbar-default">
+      <div className=" hidden w-full md:block md:w-auto absolute top-[40px] left-0 md:relative md:top-0" id="navbar-default">
         {token?<ul className="navUl  font-medium flex md:items-center flex-col p-4 md:p-0 mt-4 border  rounded-lg bg-[rgba(242,242,242,0.8)] md:bg-[rgba(242,242,242)]  md:flex-row md:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
           <li>
             <NavLink to={''} className="block py-2 px-1  rounded-sm   dark:text-white md:dark:text-blue-500" aria-current="page">Home</NavLink>
