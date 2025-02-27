@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
         <div className="partner flex flex-wrap  justify-between border-y-2 py-6 px-3">
             <div className="payment mb-3  flex flex-wrap items-center justify-between">
-              <p className='font-medium text-2xl pe-3'>Payment Partners</p>
+              <p className=' text-xl pe-3'>Payment Partners</p>
               <div className='pe-2 mt-3'>
                 <img className='w-[100px]' src={amazone} alt="" />
               </div>
@@ -34,7 +34,7 @@ export default function Footer() {
               </div>
             </div>
             <div className='app mb-3 payment  flex flex-wrap items-center justify-between'>
-                <p className='font-medium text-2xl pe-3'>Get deliveries with FreshCart</p>
+                <p className=' text-xl pe-3'>Get deliveries with FreshCart</p>
                 <div className='pe-2'>
                 <img className='w-[100px]' src={get} alt="" />
               </div>

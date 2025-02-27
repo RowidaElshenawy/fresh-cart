@@ -73,7 +73,5 @@ export default function Login() {
 </form>
   )
 }
-
-// rowidaalielshenawy@gmail.com
 // rowida11@yahoo.com 
 // T12345678

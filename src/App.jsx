@@ -21,6 +21,8 @@ import Checkout from './components/Checkout/Checkout';
 import AllOrders from './components/AllOrders/AllOrders';
 import WishList from './components/WishList/WishList'
 import ForgetPassword from './components/ForgetPassword/ForgetPassword';
+import VerifyCode from './components/VerifyCode/VerifyCode'
+import NewPassword from './components/NewPassword/NewPassword'
 function App() {
   const [count, setCount] = useState(0)
   let{setToken}=useContext(tokenContext)
@@ -44,15 +46,8 @@ function App() {
     {path:"allorders",element :<ProtectedRoutes><AllOrders/></ProtectedRoutes>},
     {path:"wishlist",element :<ProtectedRoutes><WishList/></ProtectedRoutes>},
     {path:"forgetpassword",element :<AuthView><ForgetPassword/></AuthView>},
-
-
-
-
-
-
-
-
-
+    {path:"verifycode",element :<AuthView><VerifyCode/></AuthView>},
+    {path:"newpassword",element :<AuthView><NewPassword/></AuthView>},
     {path:"*",element :< NotFound/>},
   ]}
  ])
